@@ -40,16 +40,19 @@ export default function LanguageSkills() {
                 </p>
               </div>
             </div>
-            <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
+            <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
               {lang.proficiency}%
             </span>
           </div>
 
-          {/* Progress bar */}
+          {/* Progress bar - Using inline styles for gradient */}
           <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full transition-all duration-1000 ease-out"
-              style={{ width: `${lang.proficiency}%` }}
+              className="h-full rounded-full transition-all duration-1000 ease-out"
+              style={{ 
+                width: `${lang.proficiency}%`,
+                background: 'linear-gradient(to right, #3b82f6, #2563eb)' // blue-500 to blue-600
+              }}
             ></div>
           </div>
         </div>

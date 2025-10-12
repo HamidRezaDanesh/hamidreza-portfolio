@@ -20,6 +20,10 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const { t } = useTranslation();
 
+  // Ensure technologies and results are arrays
+  const techArray = Array.isArray(technologies) ? technologies : [];
+  const resultsArray = Array.isArray(results) ? results : [];
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
       {/* Header */}
@@ -44,39 +48,43 @@ export default function ProjectCard({
         </p>
 
         {/* Technologies */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-            <Code className="w-4 h-4" />
-            {t('projects.technologies')}
-          </h4>
-          <div className="flex flex-wrap gap-2">
-            {technologies.map((tech, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full"
-              >
-                {tech}
-              </span>
-            ))}
+        {techArray.length > 0 && (
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+              <Code className="w-4 h-4" />
+              {t('projects.technologies')}
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {techArray.map((tech, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Results */}
-        <div>
-          <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-            {t('projects.results')}
-          </h4>
-          <div className="space-y-2">
-            {results.map((result, index) => (
-              <div key={index} className="flex gap-2">
-                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  {result}
-                </p>
-              </div>
-            ))}
+        {resultsArray.length > 0 && (
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+              {t('projects.results')}
+            </h4>
+            <div className="space-y-2">
+              {resultsArray.map((result, index) => (
+                <div key={index} className="flex gap-2">
+                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                    {result}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Sidebar from './components/Sidebar';
 import Dashboard from './Dashboard';
+import PersonalInfoManager from './components/PersonalInfoManager';
 import ExperienceManager from './components/ExperienceManager';
 import SkillsManager from './components/SkillsManager';
 import ProjectsManager from './components/ProjectsManager';
@@ -23,12 +24,7 @@ export default function AdminPanel() {
       case 'dashboard':
         return <Dashboard />;
       case 'personal':
-        return (
-          <div className="p-8">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Personal Info Management</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-4">Coming soon</p>
-          </div>
-        );
+        return <PersonalInfoManager />;
       case 'experience':
         return <ExperienceManager />;
       case 'skills':

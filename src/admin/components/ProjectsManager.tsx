@@ -133,7 +133,7 @@ export default function ProjectsManager() {
               {project.links && (Object.values(project.links).some(link => link)) && (
                 <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                   {project.links.github && (
-                    
+                    <a
                       href={project.links.github}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -143,7 +143,7 @@ export default function ProjectsManager() {
                     </a>
                   )}
                   {project.links.demo && (
-                    
+                    <a
                       href={project.links.demo}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -189,4 +189,4 @@ export default function ProjectsManager() {
       />
     </div>
   );
-}   
+}

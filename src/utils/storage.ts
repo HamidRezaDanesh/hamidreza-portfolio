@@ -1,5 +1,5 @@
 // src/utils/storage.ts
-import { PortfolioData, UploadedFile } from '../types/admin.types';
+import type { PortfolioData, UploadedFile } from '../types/admin.types';
 
 const STORAGE_KEY = 'portfolio_data';
 
@@ -130,7 +130,7 @@ export const storage = {
           ]
         }
       ],
-      files: [] // NEW
+      files: []
     };
   },
 
@@ -138,7 +138,6 @@ export const storage = {
     localStorage.removeItem(STORAGE_KEY);
   },
 
-  // NEW: File-specific methods
   getFiles(): UploadedFile[] {
     const data = this.getData();
     return data.files || [];
@@ -168,7 +167,7 @@ export const storage = {
     try {
       const data = JSON.stringify(this.getData());
       const used = new Blob([data]).size;
-      const available = 5 * 1024 * 1024; // 5MB typical localStorage limit
+      const available = 5 * 1024 * 1024;
       const percentage = (used / available) * 100;
       
       return { used, available, percentage };

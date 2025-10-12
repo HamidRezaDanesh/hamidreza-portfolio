@@ -19,7 +19,7 @@ export default function Hero() {
   });
 
   const handleDownloadResume = () => {
-    // Will be implemented with actual resume file in Day 8
+    // Will be implemented with actual resume file
     console.log('Download resume clicked');
   };
 
@@ -116,25 +116,43 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right: Image/Visual */}
+          {/* Right: Profile Picture */}
           <div className="relative animate-fade-in animation-delay-300">
             <div className="relative w-full max-w-md mx-auto">
-              {/* Placeholder for professional photo */}
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary-400 to-secondary-400 shadow-2xl flex items-center justify-center overflow-hidden">
-                <div className="text-center p-8">
-                  <div className="w-48 h-48 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4">
-                    <span className="text-6xl font-bold text-white">HD</span>
+              {/* Main profile picture */}
+              <div className="relative aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="/images/profile-pic.png" 
+                  alt="Hamidreza Daneshsarand - Mechanical Design Engineer"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = target.nextElementSibling as HTMLElement;
+                    if (fallback) fallback.style.display = 'flex';
+                  }}
+                />
+                {/* Fallback placeholder */}
+                <div className="hidden absolute inset-0 bg-gradient-to-br from-primary-400 to-secondary-400 items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="w-48 h-48 mx-auto bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mb-4">
+                      <span className="text-6xl font-bold text-white">HD</span>
+                    </div>
+                    <p className="text-white text-sm opacity-80">
+                      Hamidreza Daneshsarand
+                    </p>
                   </div>
-                  <p className="text-white text-sm opacity-80">
-                    Professional Photo
-                  </p>
                 </div>
               </div>
+
+              {/* Decorative gradient border */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl blur opacity-20 -z-10"></div>
 
               {/* Floating elements */}
               <div className="absolute -top-4 -right-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 animate-float">
                 <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-sm font-medium">Available for hire</span>
                 </div>
               </div>

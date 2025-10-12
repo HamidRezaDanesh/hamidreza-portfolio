@@ -1,8 +1,8 @@
-// src/admin/utils/exportData.ts
-import { storage } from '../../utils/storage';
-import { PortfolioData } from '../../types/admin.types';
+// src/utils/exportData.ts
+import { storage } from './storage';
+import type { PortfolioData } from '../types/admin.types';
 
-export function exportToJSON(data: PortfolioData, filename?: string): void {
+export function exportToJSON(data: Partial<PortfolioData> | any, filename?: string): void {
   const jsonString = JSON.stringify(data, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);

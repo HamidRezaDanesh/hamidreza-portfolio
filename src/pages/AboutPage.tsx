@@ -40,7 +40,7 @@ export default function AboutPage() {
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full text-primary-700 dark:text-primary-300 text-sm font-medium">
             <MapPin className="w-4 h-4" />
-            {t('about.location')}
+            {t('Iran.Tabriz')}
           </div>
         </div>
 

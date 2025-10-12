@@ -11,7 +11,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { storage } from '../../utils/storage';
-import { exportAll, generateBackupName } from '../utils/exportData';
+import { exportAll, generateBackupName } from '../../utils/exportData';
 
 interface Backup {
   id: string;
@@ -222,4 +222,4 @@ export default function BackupRestore() {
       </div>
     </div>
   );
-}   
+}

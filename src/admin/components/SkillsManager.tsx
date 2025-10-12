@@ -34,11 +34,12 @@ export default function SkillsManager() {
     quality: skills.filter(s => s.category === 'quality')
   };
 
-  const categoryColors = {
-    design: 'blue',
-    manufacturing: 'orange',
-    programming: 'green',
-    quality: 'purple'
+  // Color gradients for each category
+  const categoryGradients = {
+    design: 'linear-gradient(to right, #3b82f6, #2563eb)', // blue
+    manufacturing: 'linear-gradient(to right, #f97316, #ea580c)', // orange
+    programming: 'linear-gradient(to right, #22c55e, #16a34a)', // green
+    quality: 'linear-gradient(to right, #a855f7, #9333ea)' // purple
   };
 
   return (
@@ -100,10 +101,14 @@ export default function SkillsManager() {
                     </div>
                   </div>
 
+                  {/* Progress bar with inline styles */}
                   <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                     <div
-                      className={`bg-gradient-to-r from-${categoryColors[category as keyof typeof categoryColors]}-500 to-${categoryColors[category as keyof typeof categoryColors]}-600 h-2 rounded-full transition-all`}
-                      style={{ width: `${skill.proficiency}%` }}
+                      className="h-2 rounded-full transition-all"
+                      style={{ 
+                        width: `${skill.proficiency}%`,
+                        background: categoryGradients[category as keyof typeof categoryGradients]
+                      }}
                     />
                   </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-right">

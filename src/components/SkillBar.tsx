@@ -19,17 +19,20 @@ export default function SkillBar({ name, proficiency, yearsOfExperience }: Skill
           <span className="text-sm text-gray-600 dark:text-gray-400">
             {yearsOfExperience} {t('skills.yearsExp')}
           </span>
-          <span className="text-sm font-medium text-primary-600 dark:text-primary-400">
+          <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
             {proficiency}%
           </span>
         </div>
       </div>
 
-      {/* Progress bar */}
+      {/* Progress bar - Using inline styles for gradient to avoid Tailwind dynamic class issues */}
       <div className="h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full transition-all duration-1000 ease-out"
-          style={{ width: `${proficiency}%` }}
+          className="h-full rounded-full transition-all duration-1000 ease-out"
+          style={{ 
+            width: `${proficiency}%`,
+            background: 'linear-gradient(to right, #3b82f6, #2563eb)' // blue-500 to blue-600
+          }}
         ></div>
       </div>
     </div>

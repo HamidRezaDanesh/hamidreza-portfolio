@@ -1,6 +1,5 @@
-// src/admin/utils/importData.ts
-import { storage } from '../../utils/storage';
-import { PortfolioData } from '../../types/admin.types';
+// src/utils/importData.ts
+import type { PortfolioData } from '../types/admin.types';
 
 export interface ValidationResult {
   isValid: boolean;
@@ -72,6 +71,17 @@ export function sanitizeData(data: any): Partial<PortfolioData> {
     }));
   }
 
+  if (Array.isArray(data.certifications)) {
+    sanitized.certifications = data.certifications.map((cert: any) => ({
+      id: cert.id || Date.now().toString() + Math.random(),
+      title: cert.title || '',
+      issuer: cert.issuer || '',
+      date: cert.date || '',
+      credentialUrl: cert.credentialUrl || '',
+      credentialId: cert.credentialId || ''
+    }));
+  }
+
   if (Array.isArray(data.projects)) {
     sanitized.projects = data.projects.map((project: any) => ({
       id: project.id || Date.now().toString() + Math.random(),
@@ -83,6 +93,10 @@ export function sanitizeData(data: any): Partial<PortfolioData> {
       images: Array.isArray(project.images) ? project.images : [],
       links: project.links || {}
     }));
+  }
+
+  if (Array.isArray(data.files)) {
+    sanitized.files = data.files;
   }
 
   return sanitized;
@@ -122,11 +136,15 @@ export async function importFromJSON(file: File): Promise<{ success: boolean; me
 export function mergeData(existing: PortfolioData, imported: Partial<PortfolioData>, strategy: 'replace' | 'merge'): PortfolioData {
   if (strategy === 'replace') {
     return {
-      ...existing,
-      ...imported
+      experiences: imported.experiences || existing.experiences,
+      skills: imported.skills || existing.skills,
+      certifications: imported.certifications || existing.certifications,
+      projects: imported.projects || existing.projects,
+      files: imported.files || existing.files
     };
   }
 
+  // Merge strategy
   return {
     experiences: [...existing.experiences, ...(imported.experiences || [])],
     skills: [...existing.skills, ...(imported.skills || [])],

@@ -2,48 +2,69 @@ import { useTranslation } from 'react-i18next';
 import { FolderGit2 } from 'lucide-react';
 import ProjectCard from '@/components/ProjectCard';
 
+interface Project {
+  title: string;
+  duration: string;
+  description: string;
+  technologies: string[];
+  results: string[];
+  status: string;
+}
+
 export default function ProjectsPage() {
   const { t } = useTranslation();
 
-  const projects = [
+  // Helper function to safely get array from translation
+  const getTranslationArray = (key: string): string[] => {
+    const value = t(key, { returnObjects: true });
+    if (Array.isArray(value)) {
+      return value.filter((item): item is string => typeof item === 'string');
+    }
+    if (typeof value === 'string') {
+      return [value];
+    }
+    return [];
+  };
+
+  const projects: Project[] = [
     {
       title: t('projects.project1Title'),
       duration: t('projects.project1Duration'),
       description: t('projects.project1Description'),
-      technologies: t('projects.project1Technologies', { returnObjects: true }) as string[],
-      results: t('projects.project1Results', { returnObjects: true }) as string[],
+      technologies: getTranslationArray('projects.project1Technologies'),
+      results: getTranslationArray('projects.project1Results'),
       status: t('projects.statusInProgress'),
     },
     {
       title: t('projects.project2Title'),
       duration: t('projects.project2Duration'),
       description: t('projects.project2Description'),
-      technologies: t('projects.project2Technologies', { returnObjects: true }) as string[],
-      results: t('projects.project2Results', { returnObjects: true }) as string[],
+      technologies: getTranslationArray('projects.project2Technologies'),
+      results: getTranslationArray('projects.project2Results'),
       status: t('projects.statusCompleted'),
     },
     {
       title: t('projects.project3Title'),
       duration: t('projects.project3Duration'),
       description: t('projects.project3Description'),
-      technologies: t('projects.project3Technologies', { returnObjects: true }) as string[],
-      results: t('projects.project3Results', { returnObjects: true }) as string[],
+      technologies: getTranslationArray('projects.project3Technologies'),
+      results: getTranslationArray('projects.project3Results'),
       status: t('projects.statusCompleted'),
     },
     {
       title: t('projects.project4Title'),
       duration: t('projects.project4Duration'),
       description: t('projects.project4Description'),
-      technologies: t('projects.project4Technologies', { returnObjects: true }) as string[],
-      results: t('projects.project4Results', { returnObjects: true }) as string[],
+      technologies: getTranslationArray('projects.project4Technologies'),
+      results: getTranslationArray('projects.project4Results'),
       status: t('projects.statusInProgress'),
     },
     {
       title: t('projects.project5Title'),
       duration: t('projects.project5Duration'),
       description: t('projects.project5Description'),
-      technologies: t('projects.project5Technologies', { returnObjects: true }) as string[],
-      results: t('projects.project5Results', { returnObjects: true }) as string[],
+      technologies: getTranslationArray('projects.project5Technologies'),
+      results: getTranslationArray('projects.project5Results'),
       status: t('projects.statusCompleted'),
     },
   ];

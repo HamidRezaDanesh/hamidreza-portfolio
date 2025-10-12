@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Briefcase } from 'lucide-react';
 import ExperienceCard from '@/components/ExperienceCard';
+import { getStringArray } from '@/utils/i18n';
 
 export default function ExperiencePage() {
   const { t } = useTranslation();
@@ -13,8 +14,8 @@ export default function ExperiencePage() {
       period: t('experience.period1'),
       location: t('experience.location1'),
       description: t('experience.description1'),
-      achievements: t('experience.achievements1', { returnObjects: true }) as string[],
-      technologies: t('experience.technologies1', { returnObjects: true }) as string[],
+      achievements: getStringArray(t('experience.achievements1', { returnObjects: true })),
+      technologies: getStringArray(t('experience.technologies1', { returnObjects: true })),
       isLatest: true,
     },
     {
@@ -24,8 +25,8 @@ export default function ExperiencePage() {
       period: t('experience.period2'),
       location: t('experience.location2'),
       description: t('experience.description2'),
-      achievements: t('experience.achievements2', { returnObjects: true }) as string[],
-      technologies: t('experience.technologies2', { returnObjects: true }) as string[],
+      achievements: getStringArray(t('experience.achievements2', { returnObjects: true })),
+      technologies: getStringArray(t('experience.technologies2', { returnObjects: true })),
     },
     {
       company: t('experience.company3'),
@@ -33,8 +34,8 @@ export default function ExperiencePage() {
       period: t('experience.period3'),
       location: t('experience.location3'),
       description: t('experience.description3'),
-      achievements: t('experience.achievements3', { returnObjects: true }) as string[],
-      technologies: t('experience.technologies3', { returnObjects: true }) as string[],
+      achievements: getStringArray(t('experience.achievements3', { returnObjects: true })),
+      technologies: getStringArray(t('experience.technologies3', { returnObjects: true })),
     },
   ];
 

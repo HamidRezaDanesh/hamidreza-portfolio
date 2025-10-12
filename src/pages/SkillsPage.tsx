@@ -10,7 +10,7 @@ export default function SkillsPage() {
     {
       icon: <Code className="w-6 h-6" />,
       title: t('skills.categories.design'),
-      color: 'from-blue-500 to-cyan-500',
+      gradient: 'linear-gradient(to bottom right, #3b82f6, #06b6d4)', // blue to cyan
       skills: [
         { name: t('skills.skillsList.solidworks'), proficiency: 95, years: 5 },
         { name: t('skills.skillsList.autocad'), proficiency: 90, years: 4 },
@@ -21,7 +21,7 @@ export default function SkillsPage() {
     {
       icon: <Factory className="w-6 h-6" />,
       title: t('skills.categories.manufacturing'),
-      color: 'from-orange-500 to-red-500',
+      gradient: 'linear-gradient(to bottom right, #f97316, #dc2626)', // orange to red
       skills: [
         { name: t('skills.skillsList.cnc'), proficiency: 90, years: 3 },
         { name: t('skills.skillsList.lean'), proficiency: 85, years: 4 },
@@ -32,7 +32,7 @@ export default function SkillsPage() {
     {
       icon: <TrendingUp className="w-6 h-6" />,
       title: t('skills.categories.programming'),
-      color: 'from-green-500 to-emerald-500',
+      gradient: 'linear-gradient(to bottom right, #22c55e, #10b981)', // green to emerald
       skills: [
         { name: t('skills.skillsList.python'), proficiency: 75, years: 2 },
         { name: t('skills.skillsList.dataanalysis'), proficiency: 70, years: 2 },
@@ -41,7 +41,7 @@ export default function SkillsPage() {
     {
       icon: <Shield className="w-6 h-6" />,
       title: t('skills.categories.quality'),
-      color: 'from-purple-500 to-pink-500',
+      gradient: 'linear-gradient(to bottom right, #a855f7, #ec4899)', // purple to pink
       skills: [
         { name: t('skills.skillsList.iso9001'), proficiency: 90, years: 5 },
         { name: t('skills.skillsList.iso14001'), proficiency: 85, years: 3 },
@@ -123,7 +123,8 @@ export default function SkillsPage() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <div
-                  className={`w-12 h-12 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center text-white`}
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-white"
+                  style={{ background: category.gradient }}
                 >
                   {category.icon}
                 </div>
