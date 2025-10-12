@@ -21,7 +21,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const isInView = useInView(ref, {
     once: triggerOnce,
     amount: threshold,
-    margin: rootMargin,
+    margin: rootMargin as any,
   });
 
   return { ref, isInView };
@@ -43,12 +43,17 @@ export function useScrollAnimationCallback(
   return ref;
 }
 
-// 📊 Hook برای multiple elements
+// 📊 Hook برای multiple elements با stagger effect
 export function useStaggeredAnimation(count: number) {
-  const refs = useRef<(HTMLElement | null)[]>([]);
+  // ایجاد آرایه با سایز مشخص و مقداردهی اولیه
+  const refs = useRef<(HTMLElement | null)[]>(
+    new Array(count).fill(null)
+  );
   
   const setRef = (index: number) => (el: HTMLElement | null) => {
-    refs.current[index] = el;
+    if (index >= 0 && index < count) {
+      refs.current[index] = el;
+    }
   };
 
   return { refs: refs.current, setRef };
