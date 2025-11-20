@@ -16,6 +16,7 @@ interface NumberCounterProps {
   preset?: keyof typeof counterPresets;
   triggerOnView?: boolean;
 }
+// خطوط 31-48 رو با این جایگزین کن:
 
 export function NumberCounter({
   end,
@@ -29,8 +30,17 @@ export function NumberCounter({
   preset,
   triggerOnView = true,
 }: NumberCounterProps) {
+  // Define the type for preset config
+  type PresetConfig = {
+    duration?: number;
+    decimals?: number;
+    prefix?: string;
+    suffix?: string;
+    separator?: string;
+  };
+
   // Use preset if provided
-  const presetConfig = preset ? counterPresets[preset](end) : {};
+  const presetConfig: PresetConfig = preset ? counterPresets[preset](end) : {};
   
   const { ref, displayValue } = useCounter({
     start,
@@ -55,7 +65,6 @@ export function NumberCounter({
     </motion.span>
   );
 }
-
 // 🎯 پریست‌های آماده برای استفاده سریع
 
 export function PercentageCounter({ 

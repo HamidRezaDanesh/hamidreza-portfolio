@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Mail, Phone, Linkedin, MapPin, Send, Download } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
   const { t } = useTranslation();
@@ -10,15 +11,51 @@ export default function ContactPage() {
     subject: '',
     message: '',
   });
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ دانلود رزومه با تست فایل
+  const handleDownloadResume = () => {
+    // تست 1: دانلود مستقیم از public
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Hamidreza_Daneshsarand_Resume.pdf';
+    link.target = '_blank'; // باز کردن در تب جدید
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // تست 2: اگر فایل نبود، لینک Google Drive/Dropbox بدهید
+    // window.open('https://drive.google.com/file/YOUR_FILE_ID/view', '_blank');
+  };
+
+  // ✅ ارسال فرم با EmailJS
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate form submission (replace with actual implementation)
-    console.log('Form submitted:', formData);
-    setStatus('success');
-    setTimeout(() => setStatus('idle'), 5000);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setStatus('loading');
+
+    try {
+      await emailjs.send(
+        'service_q455z5k',           // Your Service ID
+        'template_a0jwai4', // جایگزین کنید با Template ID خود
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'hamidrezadanesh1996@gmail.com',
+        },
+        'g1PyWiSPSE0NBIGOn'             // جایگزین کنید با Public Key خود
+      );
+
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   const contactInfo = [
@@ -51,7 +88,6 @@ export default function ContactPage() {
   return (
     <section id="contact" className="py-20 bg-gray-50 dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
             {t('contact.title')}
@@ -65,7 +101,6 @@ export default function ContactPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
           <div className="space-y-6 animate-fade-in">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Connect With Me
@@ -107,7 +142,7 @@ export default function ContactPage() {
                 {t('contact.downloadMyResume')}
               </h4>
               <button
-                onClick={() => console.log('Download resume')}
+                onClick={handleDownloadResume}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium"
               >
                 <Download className="w-5 h-5" />
@@ -116,6 +151,7 @@ export default function ContactPage() {
             </div>
           </div>
 
+          {/* Contact Form */}
           {/* Contact Form */}
           <div className="animate-fade-in animation-delay-300">
             <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl space-y-6">
@@ -127,9 +163,10 @@ export default function ContactPage() {
                   type="text"
                   id="name"
                   required
+                  disabled={status === 'loading'}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors disabled:opacity-50"
                 />
               </div>
 
@@ -141,9 +178,10 @@ export default function ContactPage() {
                   type="email"
                   id="email"
                   required
+                  disabled={status === 'loading'}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors disabled:opacity-50"
                 />
               </div>
 
@@ -155,9 +193,10 @@ export default function ContactPage() {
                   type="text"
                   id="subject"
                   required
+                  disabled={status === 'loading'}
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors disabled:opacity-50"
                 />
               </div>
 
@@ -169,29 +208,43 @@ export default function ContactPage() {
                   id="message"
                   required
                   rows={6}
+                  disabled={status === 'loading'}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none disabled:opacity-50"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium"
+                disabled={status === 'loading'}
+                className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
-                {t('contact.formSubmit')}
+                {status === 'loading' ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    {t('contact.formSubmit')}
+                  </>
+                )}
               </button>
 
               {status === 'success' && (
                 <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg">
-                  {t('contact.successMessage')}
+                  ✅ Message sent successfully!
                 </div>
               )}
 
               {status === 'error' && (
                 <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg">
-                  {t('contact.errorMessage')}
+                  ❌ Failed to send message. Please try again.
                 </div>
               )}
             </form>

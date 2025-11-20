@@ -15,6 +15,7 @@ export default function ProjectModal({ isOpen, onClose, onSave, project }: Proje
   const { t } = useTranslation();
   const [formData, setFormData] = useState<Omit<Project, 'id'>>({
     title: '',
+    duration: '',
     status: 'in-progress',
     description: '',
     technologies: [''],
@@ -88,19 +89,34 @@ export default function ProjectModal({ isOpen, onClose, onSave, project }: Proje
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t('admin.form.status')}
-            </label>
-            <select
-              value={formData.status}
-              onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as any }))}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            >
-              <option value="completed">{t('admin.form.statusCompleted')}</option>
-              <option value="in-progress">{t('admin.form.statusInProgress')}</option>
-              <option value="planned">{t('admin.form.statusPlanned')}</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Duration
+              </label>
+              <input
+                type="text"
+                value={formData.duration}
+                onChange={e => setFormData(prev => ({ ...prev, duration: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                placeholder="2022 - Present"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                {t('admin.form.status')}
+              </label>
+              <select
+                value={formData.status}
+                onChange={e => setFormData(prev => ({ ...prev, status: e.target.value as any }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option value="completed">{t('admin.form.statusCompleted')}</option>
+                <option value="in-progress">{t('admin.form.statusInProgress')}</option>
+                <option value="planned">{t('admin.form.statusPlanned')}</option>
+              </select>
+            </div>
           </div>
 
           <div>

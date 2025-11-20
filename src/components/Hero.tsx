@@ -1,3 +1,4 @@
+// src/components/Hero.tsx
 import { useTranslation } from 'react-i18next';
 import { Download, Mail, ArrowRight, MapPin } from 'lucide-react';
 import { useTypingEffect } from '@/hooks/useTypingEffect';
@@ -56,8 +57,11 @@ export default function Hero() {
               <span className="block text-gray-900 dark:text-white mb-2">
                 {t('hero.greeting')}
               </span>
-              <span className="block bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-                {t('hero.name')}
+              {/* FIX: Changed from bg-clip-text to solid colors with gradient background */}
+              <span className="block relative">
+                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 dark:from-blue-400 dark:via-purple-400 dark:to-blue-400">
+                  {t('hero.name')}
+                </span>
               </span>
             </h1>
 
@@ -75,15 +79,15 @@ export default function Hero() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 pt-6">
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-primary-600">5+</div>
+                <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">5+</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.achievement1')}</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-primary-600">30%</div>
+                <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">30%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.achievement2')}</div>
               </div>
               <div className="text-center lg:text-left">
-                <div className="text-3xl font-bold text-primary-600">€50K</div>
+                <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">€50K</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">{t('hero.achievement3')}</div>
               </div>
             </div>

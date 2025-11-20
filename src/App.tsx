@@ -1,8 +1,9 @@
-// src/App.tsx
+// src/App.tsx - ADD THIS IMPORT AND HOOK
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext.tsx';
 import { AuthProvider } from './contexts/AuthContext';
+import { usePageTracking } from './hooks/useAnalytics'; // ← ADD THIS
 import ErrorBoundary from './components/common/ErrorBoundary';
 import { PageLoader } from './components/common/LoadingSpinner';
 import SEOHead from './components/common/SEOHead';
@@ -19,124 +20,133 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const AdminPage = lazy(() => import('./pages/AdminPage'));
 const ProtectedRoute = lazy(() => import('./components/auth/ProtectedRoute'));
 
+// ← ADD THIS COMPONENT
+function AppContent() {
+  usePageTracking(); // Track all route changes
+  
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={
+            <>
+              <SEOHead />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <HomePage />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <>
+              <SEOHead
+                title="About Me"
+                description="Learn more about Hamidreza Daneshsarand - Mechanical Design Engineer with 5+ years of experience"
+              />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <AboutPage />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/experience"
+          element={
+            <>
+              <SEOHead
+                title="Work Experience"
+                description="Professional experience at ZF AG, SKF, and other leading companies"
+              />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <ExperiencePage />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/skills"
+          element={
+            <>
+              <SEOHead
+                title="Skills & Certifications"
+                description="Technical skills in SolidWorks, CAD, manufacturing, and professional certifications"
+              />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <SkillsPage />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/projects"
+          element={
+            <>
+              <SEOHead
+                title="Projects Portfolio"
+                description="Engineering projects and achievements in automotive and manufacturing"
+              />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <ProjectsPage />
+              </div>
+            </>
+          }
+        />
+
+        <Route
+          path="/contact"
+          element={
+            <>
+              <SEOHead
+                title="Contact Me"
+                description="Get in touch for opportunities in Sweden - Available for immediate relocation"
+              />
+              <div className="min-h-screen bg-white dark:bg-gray-900">
+                <Header />
+                <ContactPage />
+              </div>
+            </>
+          }
+        />
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<LoginPage />} />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <AuthProvider>
           <Router>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                {/* Public Routes */}
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <SEOHead />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <HomePage />
-                      </div>
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/about"
-                  element={
-                    <>
-                      <SEOHead
-                        title="About Me"
-                        description="Learn more about Hamidreza Daneshsarand - Mechanical Design Engineer with 5+ years of experience"
-                      />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <AboutPage />
-                      </div>
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/experience"
-                  element={
-                    <>
-                      <SEOHead
-                        title="Work Experience"
-                        description="Professional experience at ZF AG, SKF, and other leading companies"
-                      />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <ExperiencePage />
-                      </div>
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/skills"
-                  element={
-                    <>
-                      <SEOHead
-                        title="Skills & Certifications"
-                        description="Technical skills in SolidWorks, CAD, manufacturing, and professional certifications"
-                      />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <SkillsPage />
-                      </div>
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/projects"
-                  element={
-                    <>
-                      <SEOHead
-                        title="Projects Portfolio"
-                        description="Engineering projects and achievements in automotive and manufacturing"
-                      />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <ProjectsPage />
-                      </div>
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/contact"
-                  element={
-                    <>
-                      <SEOHead
-                        title="Contact Me"
-                        description="Get in touch for opportunities in Sweden - Available for immediate relocation"
-                      />
-                      <div className="min-h-screen bg-white dark:bg-gray-900">
-                        <Header />
-                        <ContactPage />
-                      </div>
-                    </>
-                  }
-                />
-
-                {/* Admin Routes */}
-                <Route path="/admin/login" element={<LoginPage />} />
-
-                <Route
-                  path="/admin/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <AdminPage />
-                    </ProtectedRoute>
-                  }
-                />
-
-                <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
+            <AppContent /> {/* ← WRAP ROUTES IN THIS */}
           </Router>
         </AuthProvider>
       </ThemeProvider>

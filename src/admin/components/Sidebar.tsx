@@ -13,10 +13,11 @@ import {
   LogOut,
   Home,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  GraduationCap
 } from 'lucide-react';
 
-type AdminView = 'dashboard' | 'personal' | 'experience' | 'skills' | 'projects' | 'files' | 'settings';
+type AdminView = 'dashboard' | 'personal' | 'experience' | 'skills' | 'certifications' | 'projects' | 'files' | 'export' | 'backup' | 'settings';
 
 interface SidebarProps {
   currentView: AdminView;
@@ -35,10 +36,11 @@ export default function Sidebar({ currentView, onViewChange, isOpen, onToggle, o
     { id: 'personal' as AdminView, label: t('admin.sidebar.personal'), icon: User },
     { id: 'experience' as AdminView, label: t('admin.sidebar.experience'), icon: Briefcase },
     { id: 'skills' as AdminView, label: t('admin.sidebar.skills'), icon: Award },
+    { id: 'certifications' as AdminView, label: t('admin.sidebar.certifications'), icon: GraduationCap },
     { id: 'projects' as AdminView, label: t('admin.sidebar.projects'), icon: FolderGit2 },
     { id: 'files' as AdminView, label: t('admin.sidebar.files'), icon: FileUp },
-    { id: 'export' as AdminView, label: 'Export/Import', icon: Download }, // ADD THIS
-    { id: 'backup' as AdminView, label: 'Backup', icon: Database }, // ADD THIS
+    { id: 'export' as AdminView, label: 'Export/Import', icon: Download },
+    { id: 'backup' as AdminView, label: 'Backup', icon: Database },
     { id: 'settings' as AdminView, label: t('admin.sidebar.settings'), icon: Settings },
   ];
 
@@ -80,7 +82,7 @@ export default function Sidebar({ currentView, onViewChange, isOpen, onToggle, o
         </div>
 
         {/* Navigation */}
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 180px)' }}>
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;

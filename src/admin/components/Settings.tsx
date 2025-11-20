@@ -11,10 +11,12 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Settings() {
   const { t, i18n } = useTranslation();
   const { theme, toggleTheme } = useTheme();
+  const { changePassword } = useAuth();
   
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -31,11 +33,6 @@ export default function Settings() {
   const handlePasswordChange = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (currentPassword !== 'portfolio2024') {
-      setPasswordMessage({ type: 'error', text: t('admin.settings.wrongPassword') });
-      return;
-    }
-
     if (newPassword.length < 8) {
       setPasswordMessage({ type: 'error', text: t('admin.settings.passwordTooShort') });
       return;
@@ -46,13 +43,26 @@ export default function Settings() {
       return;
     }
 
-    // In a real app, this would call an API
-    setPasswordMessage({ type: 'success', text: t('admin.settings.passwordChanged') });
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
-    
-    setTimeout(() => setPasswordMessage(null), 3000);
+    try {
+      const success = changePassword(currentPassword, newPassword);
+      
+      if (!success) {
+        setPasswordMessage({ type: 'error', text: t('admin.settings.wrongPassword') });
+        return;
+      }
+      
+      setPasswordMessage({ type: 'success', text: t('admin.settings.passwordChanged') });
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      
+      setTimeout(() => setPasswordMessage(null), 3000);
+    } catch (error) {
+      setPasswordMessage({ 
+        type: 'error', 
+        text: error instanceof Error ? error.message : 'Failed to change password' 
+      });
+    }
   };
 
   const handleLanguageChange = (lang: string) => {
@@ -144,6 +154,9 @@ export default function Settings() {
                 required
                 minLength={8}
               />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Password must be at least 8 characters long
+              </p>
             </div>
 
             <div>

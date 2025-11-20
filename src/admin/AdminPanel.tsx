@@ -6,13 +6,14 @@ import Dashboard from './Dashboard';
 import PersonalInfoManager from './components/PersonalInfoManager';
 import ExperienceManager from './components/ExperienceManager';
 import SkillsManager from './components/SkillsManager';
+import CertificationsManager from './components/CertificationsManager';
 import ProjectsManager from './components/ProjectsManager';
 import FileManager from './components/FileManager';
 import ExportImport from './components/ExportImport';
 import Settings from './components/Settings';
 import BackupRestore from './components/BackupRestore';
 
-type AdminView = 'dashboard' | 'personal' | 'experience' | 'skills' | 'projects' | 'files' | 'export' | 'backup' | 'settings';
+type AdminView = 'dashboard' | 'personal' | 'experience' | 'skills' | 'certifications' | 'projects' | 'files' | 'export' | 'backup' | 'settings';
 
 export default function AdminPanel() {
   const { logout } = useAuth();
@@ -29,6 +30,8 @@ export default function AdminPanel() {
         return <ExperienceManager />;
       case 'skills':
         return <SkillsManager />;
+      case 'certifications':
+        return <CertificationsManager />;
       case 'projects':
         return <ProjectsManager />;
       case 'files':

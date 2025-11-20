@@ -7,6 +7,7 @@ export interface Experience {
   startDate: string;
   endDate: string;
   current: boolean;
+  location?: string;  // اضافه شد
   description: string;
   achievements: string[];
   technologies: string[];
@@ -33,6 +34,7 @@ export interface Certification {
 export interface Project {
   id: string;
   title: string;
+  duration?: string;  // اضافه شد
   status: 'completed' | 'in-progress' | 'planned';
   description: string;
   technologies: string[];

@@ -39,6 +39,7 @@ export default function FileManager() {
     id: '',
     name: ''
   });
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -216,6 +217,19 @@ export default function FileManager() {
         </div>
 
         <div className="flex gap-2">
+          {/* Filter Button with Icon */}
+          <button
+            onClick={() => setShowFilterMenu(!showFilterMenu)}
+            className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+              filter !== 'all'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+            }`}
+          >
+            <Filter className="h-4 w-4" />
+            {t('admin.files.filter')}
+          </button>
+          
           <button
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg transition-colors ${

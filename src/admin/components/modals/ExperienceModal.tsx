@@ -24,6 +24,7 @@ export default function ExperienceModal({
     startDate: '',
     endDate: '',
     current: false,
+    location: '',
     description: '',
     achievements: [''],
     technologies: [''],
@@ -145,6 +146,19 @@ export default function ExperienceModal({
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {t('admin.form.currentPosition')}
             </label>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Location
+            </label>
+            <input
+              type="text"
+              value={formData.location}
+              onChange={e => setFormData(prev => ({ ...prev, location: e.target.value }))}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              placeholder="Tabriz, Iran"
+            />
           </div>
 
           <div>

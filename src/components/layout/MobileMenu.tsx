@@ -1,7 +1,7 @@
 import { X } from 'lucide-react';
 import Navigation from './Navigation';
 import LanguageSwitcher from './LanguageSwitcher';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '@/components/layout/ThemeToggle';
 
 interface MobileMenuProps {
   isOpen: boolean;

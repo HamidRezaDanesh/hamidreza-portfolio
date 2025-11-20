@@ -18,7 +18,7 @@ export default function SEOHead({
   image = '/og-image.jpg',
   type = 'website'
 }: SEOHeadProps) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation(); // حذف t چون استفاده نمی‌شه
   const location = useLocation();
 
   const siteTitle = 'Hamidreza Daneshsarand - Mechanical Design Engineer';

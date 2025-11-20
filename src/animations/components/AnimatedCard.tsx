@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
-import { cardHover } from '../config/variants';
 
 interface AnimatedCardProps {
   children: ReactNode;
@@ -28,7 +27,7 @@ export function AnimatedCard({
       y: 0,
       transition: {
         duration: 0.3,
-        ease: 'easeOut',
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },
     hover: {
@@ -36,7 +35,7 @@ export function AnimatedCard({
       y: hoverLift,
       transition: {
         duration: 0.3,
-        ease: 'easeOut',
+        ease: [0.25, 0.46, 0.45, 0.94] as const,
       },
     },
     tap: {
@@ -52,7 +51,7 @@ export function AnimatedCard({
       variants={customHover}
       onClick={onClick}
       className={`${className} ${onClick && !disabled ? 'cursor-pointer' : ''}`}
-      style={{ willChange: 'transform' }} // Performance optimization
+      style={{ willChange: 'transform' }}
     >
       {children}
     </motion.div>

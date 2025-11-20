@@ -25,10 +25,15 @@ export default function QuickActions() {
       onClick: () => alert('Coming in Day 12')
     },
     {
-      label: t('admin.quickActions.manageProjects'),
-      icon: Edit,
+      label: t('admin.quickActions.clearCache'),
+      icon: Trash2,
       color: 'orange',
-      onClick: () => alert('Coming in Day 11')
+      onClick: () => {
+        if (confirm('Are you sure you want to clear cache?')) {
+          localStorage.removeItem('portfolio_cache');
+          alert('Cache cleared!');
+        }
+      }
     },
   ];
 
