@@ -51,7 +51,17 @@ export const analytics = {
     try {
       const data = localStorage.getItem(ANALYTICS_KEY);
       if (data) {
-        return JSON.parse(data);
+        const parsed = JSON.parse(data);
+        // ✅ Ensure all fields exist
+        return {
+          totalViews: parsed.totalViews || 0,
+          pageViews: parsed.pageViews || {},
+          dailyViews: parsed.dailyViews || {},
+          weeklyViews: parsed.weeklyViews || 0,
+          monthlyViews: parsed.monthlyViews || 0,
+          lastVisit: parsed.lastVisit || '',
+          sessions: parsed.sessions || []
+        };
       }
       return this.getDefaultData();
     } catch (error) {
@@ -122,7 +132,8 @@ export const analytics = {
     let weeklyViews = 0;
     let monthlyViews = 0;
 
-    Object.entries(data.dailyViews).forEach(([dateStr, views]) => {
+    const dailyViews = data.dailyViews || {};
+    Object.entries(dailyViews).forEach(([dateStr, views]) => {
       const date = new Date(dateStr);
       if (date >= weekAgo) {
         weeklyViews += views;
@@ -150,8 +161,10 @@ export const analytics = {
     const today = getDateString();
     const yesterday = getDateString(new Date(Date.now() - 86400000));
 
-    const todayViews = data.dailyViews[today] || 0;
-    const yesterdayViews = data.dailyViews[yesterday] || 0;
+    // ✅ Safe checks for undefined
+    const dailyViews = data.dailyViews || {};
+    const todayViews = dailyViews[today] || 0;
+    const yesterdayViews = dailyViews[yesterday] || 0;
 
     // Calculate trend
     let trend = '+0%';
@@ -163,17 +176,18 @@ export const analytics = {
     }
 
     // Get top pages
-    const topPages = Object.entries(data.pageViews)
+    const pageViews = data.pageViews || {};
+    const topPages = Object.entries(pageViews)
       .map(([page, views]) => ({ page, views }))
       .sort((a, b) => b.views - a.views)
       .slice(0, 5);
 
     return {
-      totalViews: data.totalViews,
-      weeklyViews: data.weeklyViews,
-      monthlyViews: data.monthlyViews,
+      totalViews: data.totalViews || 0,
+      weeklyViews: data.weeklyViews || 0,
+      monthlyViews: data.monthlyViews || 0,
       todayViews,
-      uniqueSessions: data.sessions.length,
+      uniqueSessions: (data.sessions || []).length,
       topPages,
       trend
     };
@@ -183,13 +197,14 @@ export const analytics = {
   getViewsHistory(days: number = 7): { date: string; views: number }[] {
     const data = this.getData();
     const history: { date: string; views: number }[] = [];
+    const dailyViews = data.dailyViews || {};
 
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date(Date.now() - i * 86400000);
       const dateStr = getDateString(date);
       history.push({
         date: dateStr,
-        views: data.dailyViews[dateStr] || 0
+        views: dailyViews[dateStr] || 0
       });
     }
 
@@ -202,8 +217,9 @@ export const analytics = {
     const cutoffDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000);
     const cutoffStr = getDateString(cutoffDate);
 
+    const dailyViews = data.dailyViews || {};
     const newDailyViews: Record<string, number> = {};
-    Object.entries(data.dailyViews).forEach(([date, views]) => {
+    Object.entries(dailyViews).forEach(([date, views]) => {
       if (date >= cutoffStr) {
         newDailyViews[date] = views;
       }
@@ -218,6 +234,5 @@ export const analytics = {
     localStorage.removeItem(ANALYTICS_KEY);
   }
 };
-
 
 export default analytics;

@@ -1,3 +1,4 @@
+// src/types/i18n.types.ts
 export type Language = 'en' | 'sv' | 'fa';
 
 export interface LanguageConfig {
@@ -9,7 +10,7 @@ export interface LanguageConfig {
 }
 
 export const languages: LanguageConfig[] = [
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸', dir: 'ltr' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸', dir: 'ltr' }, // Changed from 🇬🇧
   { code: 'sv', name: 'Swedish', nativeName: 'Svenska', flag: '🇸🇪', dir: 'ltr' },
   { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷', dir: 'rtl' },
 ];
