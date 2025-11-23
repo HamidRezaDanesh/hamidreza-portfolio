@@ -98,3 +98,4 @@ export function lazyLoadImages() {
     const speed = getConnectionSpeed();
     return speed === 'slow-2g' || speed === '2g';
   }
+  

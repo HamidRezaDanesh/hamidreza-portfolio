@@ -350,3 +350,69 @@
 .hover-scale:hover {
   transform: scale(1.05);
 }
+/* ⚡ PERFORMANCE OPTIMIZED ANIMATIONS - 2025 */
+
+/* ✨ Glassmorphism Effect - Essential only */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-effect-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 🎨 Neon Glow Text - Optimized */
+.neon-text {
+  text-shadow: 
+    0 0 10px rgba(59, 130, 246, 0.8),
+    0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.neon-text:hover {
+  text-shadow: 
+    0 0 20px rgba(59, 130, 246, 1),
+    0 0 30px rgba(59, 130, 246, 0.6);
+}
+
+/* 💫 Card Hover - Simplified */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: translateY(-8px);
+}
+
+/* ⚡ Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 🎯 Hardware acceleration */
+.animate-blob,
+.animate-float,
+.animate-pulse-slow {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 💾 Remove will-change after animation */
+@media (hover: hover) and (pointer: fine) {
+  .card-3d:not(:hover) {
+    will-change: auto;
+  }
+}
