@@ -28,8 +28,11 @@ export default function AboutPage() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="about" className="py-20 relative">
+      {/* Overlay for better readability */}
+      <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm -z-10"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
@@ -46,7 +49,7 @@ export default function AboutPage() {
 
         {/* Introduction */}
         <div className="max-w-4xl mx-auto mb-16 animate-fade-in animation-delay-300">
-          <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl">
+          <div className="glass-card p-8 shadow-xl">
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
               {t('about.intro')}
             </p>
@@ -61,7 +64,7 @@ export default function AboutPage() {
 
         {/* Why Sweden Section */}
         <div className="max-w-4xl mx-auto mb-16 animate-fade-in animation-delay-600">
-          <div className="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-2xl p-8 border-2 border-primary-200 dark:border-primary-800">
+          <div className="glass-card p-8 border-2 border-primary-200 dark:border-primary-800">
             <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white flex items-center gap-2">
               🇸🇪 {t('about.whySweden')}
             </h3>
@@ -86,7 +89,7 @@ export default function AboutPage() {
             <h3 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
               {t('about.languages')}
             </h3>
-            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl">
+            <div className="glass-card p-8 shadow-xl">
               <LanguageSkills />
             </div>
           </div>
@@ -101,7 +104,7 @@ export default function AboutPage() {
             {values.map((value, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 group"
+                className="glass-card p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-2 group"
               >
                 <div
                   className={`w-16 h-16 rounded-lg bg-gradient-to-br ${value.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}

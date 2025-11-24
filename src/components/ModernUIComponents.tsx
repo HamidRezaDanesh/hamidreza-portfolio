@@ -4,8 +4,7 @@
 import { useState, useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Sparkles, ChevronRight, Zap, Star, ArrowUpRight,
-  TrendingUp, Award, CheckCircle, Globe, Rocket
+  Sparkles, ArrowUpRight, TrendingUp, Rocket
 } from 'lucide-react';
 
 // 1️⃣ دکمه مدرن با انیمیشن Neon Glow

@@ -103,8 +103,11 @@ export default function SkillsPage() {
   ];
 
   return (
-    <section id="skills" className="py-20 bg-gray-50 dark:bg-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="skills" className="py-20 relative">
+      {/* Overlay for better readability */}
+      <div className="absolute inset-0 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm -z-10"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <AnimatedSection animation="fadeInDown">
           <div className="text-center mb-16">
@@ -122,7 +125,7 @@ export default function SkillsPage() {
           <div className="grid lg:grid-cols-2 gap-8 mb-20">
             {skillCategories.map((category, index) => (
               <AnimatedStaggerItem key={index}>
-                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl h-full">
+                <div className="glass-card p-8 shadow-xl h-full">
                   <div className="flex items-center gap-3 mb-6">
                     <div
                       className="w-12 h-12 rounded-lg flex items-center justify-center text-white"

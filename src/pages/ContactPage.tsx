@@ -1,69 +1,97 @@
 import { useTranslation } from 'react-i18next';
-import { Mail, MapPin, Phone, Github, Linkedin, Send, Download } from 'lucide-react';
+import { Mail, MapPin, Phone, Github, Linkedin, Send, Download, AlertCircle, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
+import { sendContactEmail, validateContactForm, type ContactFormData } from '@/utils/emailService';
 
 export default function ContactPage() {
   const { t } = useTranslation();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     subject: '',
     message: '',
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Reset errors
+    setFieldErrors({});
+    setErrorMessage('');
+
+    // اعتبارسنجی
+    const validation = validateContactForm(formData);
+    if (!validation.isValid) {
+      setFieldErrors(validation.errors);
+      return;
+    }
+
     setStatus('sending');
 
-    // Simulate API call
-    setTimeout(() => {
+    // ارسال ایمیل
+    const result = await sendContactEmail(formData);
+
+    if (result.success) {
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 3000);
-    }, 1000);
+      setTimeout(() => setStatus('idle'), 5000);
+    } else {
+      setStatus('error');
+      setErrorMessage(result.message);
+      setTimeout(() => setStatus('idle'), 5000);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // پاک کردن error وقتی کاربر شروع به تایپ می‌کنه
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   const contactInfo = [
     {
       icon: <Mail className="w-6 h-6" />,
       label: t('contact.email'),
-      value: 'hamidreza.mohammadi@example.com',
-      href: 'mailto:hamidreza.mohammadi@example.com',
+      value: 'hamidrezadanesh1996@gmail.com',
+      href: 'mailto:hamidrezadanesh1996@gmail.com',
       gradient: 'from-blue-500 to-cyan-500',
     },
     {
       icon: <Phone className="w-6 h-6" />,
       label: t('contact.phone'),
-      value: '+31 6 1234 5678',
-      href: 'tel:+31612345678',
+      value: '+98 938 301 2872',
+      href: 'tel:+989383012872',
       gradient: 'from-green-500 to-emerald-500',
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       label: t('contact.location'),
-      value: 'Amsterdam, Netherlands',
+      value: 'Available for immediate relocation to Sweden',
       gradient: 'from-purple-500 to-pink-500',
     },
     {
       icon: <Linkedin className="w-6 h-6" />,
       label: 'LinkedIn',
-      value: 'linkedin.com/in/hamidreza-mohammadi',
-      href: 'https://linkedin.com/in/hamidreza-mohammadi',
+      value: 'linkedin.com/in/hamidreza-daneshsarand',
+      href: 'https://linkedin.com/in/hamidreza-daneshsarand',
       gradient: 'from-blue-600 to-blue-400',
     },
     {
       icon: <Github className="w-6 h-6" />,
       label: 'GitHub',
-      value: 'github.com/hamidreza-dev',
-      href: 'https://github.com/hamidreza-dev',
+      value: 'github.com/hamidrezadanesh',
+      href: 'https://github.com/hamidrezadanesh',
       gradient: 'from-gray-700 to-gray-500',
     },
   ];
@@ -72,12 +100,12 @@ export default function ContactPage() {
     <section id="contact" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header با Glass Effect */}
+        {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-flex items-center gap-2 glass-card px-6 py-3 rounded-full mb-6 shadow-glow-blue">
             <Send className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
-              {t('contact.badge', 'GET IN TOUCH')}
+              GET IN TOUCH
             </span>
           </div>
           
@@ -92,11 +120,11 @@ export default function ContactPage() {
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           
-          {/* Left Side: Contact Info */}
+          {/* Left: Contact Info */}
           <div className="space-y-8 animate-fade-in">
             <div>
               <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                {t('contact.info_title', 'Contact Information')}
+                Contact Information
               </h3>
               
               <div className="space-y-4">
@@ -135,7 +163,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Resume Download Card */}
+            {/* Resume Download */}
             <div className="card-hover glass-card p-6 border-2 border-blue-500/20 shadow-glow-blue">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white">
@@ -143,35 +171,35 @@ export default function ContactPage() {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-bold text-gray-900 dark:text-white mb-1">
-                    {t('contact.resume_title', 'Download Resume')}
+                    Download Resume
                   </h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {t('contact.resume_subtitle', 'Get my full CV in PDF format')}
+                    Get my full CV in PDF format
                   </p>
                 </div>
                 <a
-                  href="/resume.pdf"
+                  href="../../../Public/resume/resume.PDF"
                   download
                   className="btn-gradient px-6 py-3 rounded-lg font-bold"
                 >
-                  {t('contact.download', 'Download')}
+                  Download
                 </a>
               </div>
             </div>
           </div>
 
-          {/* Right Side: SEND MESSAGE FORM */}
+          {/* Right: Contact Form */}
           <div className="card-hover glass-card p-8 animate-scale-in">
             <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-              {t('contact.form_title', 'Send a Message')}
+              Send a Message
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               
-              {/* Name Field */}
+              {/* Name */}
               <div>
                 <label htmlFor="name" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                  {t('contact.name', 'Name')}
+                  Name *
                 </label>
                 <input
                   type="text"
@@ -180,15 +208,23 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
-                  placeholder={t('contact.name_placeholder', 'Your name')}
+                  className={`glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${
+                    fieldErrors.name ? 'ring-2 ring-red-500' : 'focus:ring-blue-500'
+                  } transition-all font-medium`}
+                  placeholder="Your name"
                 />
+                {fieldErrors.name && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertCircle className="w-4 h-4" />
+                    {fieldErrors.name}
+                  </p>
+                )}
               </div>
 
-              {/* Email Field */}
+              {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                  {t('contact.email', 'Email')}
+                  Email *
                 </label>
                 <input
                   type="email"
@@ -197,15 +233,23 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
-                  placeholder={t('contact.email_placeholder', 'your.email@example.com')}
+                  className={`glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${
+                    fieldErrors.email ? 'ring-2 ring-red-500' : 'focus:ring-blue-500'
+                  } transition-all font-medium`}
+                  placeholder="your.email@example.com"
                 />
+                {fieldErrors.email && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertCircle className="w-4 h-4" />
+                    {fieldErrors.email}
+                  </p>
+                )}
               </div>
 
-              {/* Subject Field - اضافه شد */}
+              {/* Subject */}
               <div>
                 <label htmlFor="subject" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                  {t('contact.subject', 'Subject')}
+                  Subject *
                 </label>
                 <input
                   type="text"
@@ -214,26 +258,48 @@ export default function ContactPage() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium"
-                  placeholder={t('contact.subject_placeholder', 'What is this about?')}
+                  className={`glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${
+                    fieldErrors.subject ? 'ring-2 ring-red-500' : 'focus:ring-blue-500'
+                  } transition-all font-medium`}
+                  placeholder="What is this about?"
                 />
+                {fieldErrors.subject && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertCircle className="w-4 h-4" />
+                    {fieldErrors.subject}
+                  </p>
+                )}
               </div>
 
-              {/* Message Field */}
+              {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                  {t('contact.message', 'Message')}
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label htmlFor="message" className="block text-sm font-bold text-gray-700 dark:text-gray-300">
+                    Message *
+                  </label>
+                  <span className="text-xs text-gray-500">
+                    {formData.message.length}/1000
+                  </span>
+                </div>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  maxLength={1000}
                   rows={5}
-                  className="glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none font-medium"
-                  placeholder={t('contact.message_placeholder', 'Your message here...')}
+                  className={`glass-card w-full px-4 py-3 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 ${
+                    fieldErrors.message ? 'ring-2 ring-red-500' : 'focus:ring-blue-500'
+                  } transition-all resize-none font-medium`}
+                  placeholder="Your message here..."
                 />
+                {fieldErrors.message && (
+                  <p className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertCircle className="w-4 h-4" />
+                    {fieldErrors.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
@@ -245,12 +311,12 @@ export default function ContactPage() {
                 {status === 'sending' ? (
                   <>
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    {t('contact.sending', 'Sending...')}
+                    Sending...
                   </>
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    {t('contact.send', 'Send Message')}
+                    Send Message
                   </>
                 )}
               </button>
@@ -258,18 +324,24 @@ export default function ContactPage() {
               {/* Success Message */}
               {status === 'success' && (
                 <div className="glass-card p-4 bg-green-500/20 border border-green-500/50 rounded-lg animate-scale-in">
-                  <p className="text-green-700 dark:text-green-300 font-bold text-center">
-                    {t('contact.success', 'Message sent successfully!')}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-700 dark:text-green-300" />
+                    <p className="text-green-700 dark:text-green-300 font-bold">
+                      Message sent successfully! I'll get back to you soon.
+                    </p>
+                  </div>
                 </div>
               )}
 
               {/* Error Message */}
               {status === 'error' && (
                 <div className="glass-card p-4 bg-red-500/20 border border-red-500/50 rounded-lg animate-scale-in">
-                  <p className="text-red-700 dark:text-red-300 font-bold text-center">
-                    {t('contact.error', 'Something went wrong. Please try again.')}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-red-700 dark:text-red-300" />
+                    <p className="text-red-700 dark:text-red-300 font-bold">
+                      {errorMessage || 'Something went wrong. Please try again.'}
+                    </p>
+                  </div>
                 </div>
               )}
             </form>
