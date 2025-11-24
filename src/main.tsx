@@ -3,7 +3,21 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import './index.css';
 import './i18n';
+import './styles/modern-vazir.css';
+import './styles/modern-design.css'; // ← اضافه کن
 
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="spinner"></div>
+      </div>
+    }>
+      <App />
+    </Suspense>
+  </React.StrictMode>
+);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Suspense fallback={

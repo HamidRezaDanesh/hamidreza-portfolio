@@ -42,6 +42,7 @@ export default function ExperiencePage() {
   return (
     <section id="experience" className="py-20 bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4">
@@ -62,21 +63,24 @@ export default function ExperiencePage() {
           ))}
         </div>
 
-        {/* Summary Stats */}
+        {/* Summary Stats با Glassmorphism */}
         <div className="grid md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
-          <div className="text-center p-6 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-xl">
-            <div className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-2">5+</div>
-            <div className="text-gray-700 dark:text-gray-300">Years Experience</div>
+          <div className="card-hover glass-card text-center p-8 animate-scale-in shadow-glow-blue">
+            <div className="text-5xl font-black gradient-text mb-3">5+</div>
+            <div className="text-gray-700 dark:text-gray-300 font-semibold">Years Experience</div>
           </div>
-          <div className="text-center p-6 bg-gradient-to-br from-secondary-50 to-secondary-100 dark:from-secondary-900/20 dark:to-secondary-800/20 rounded-xl">
-            <div className="text-4xl font-bold text-secondary-600 dark:text-secondary-400 mb-2">50+</div>
-            <div className="text-gray-700 dark:text-gray-300">Components Designed</div>
+          
+          <div className="card-hover glass-card text-center p-8 animate-scale-in shadow-glow-purple" style={{ animationDelay: '100ms' }}>
+            <div className="text-5xl font-black gradient-text mb-3">50+</div>
+            <div className="text-gray-700 dark:text-gray-300 font-semibold">Components Designed</div>
           </div>
-          <div className="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl">
-            <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">€80K+</div>
-            <div className="text-gray-700 dark:text-gray-300">Annual Savings</div>
+          
+          <div className="card-hover glass-card text-center p-8 animate-scale-in shadow-glow-blue" style={{ animationDelay: '200ms' }}>
+            <div className="text-5xl font-black gradient-text mb-3">€80K+</div>
+            <div className="text-gray-700 dark:text-gray-300 font-semibold">Annual Savings</div>
           </div>
         </div>
+        
       </div>
     </section>
   );

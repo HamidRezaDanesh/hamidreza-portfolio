@@ -17,10 +17,6 @@ export default function Navigation({ isMobile = false, onNavigate }: NavigationP
     { key: 'contact', label: t('nav.contact'), href: '#contact' },
   ];
 
-  const baseClasses = isMobile
-    ? 'block px-4 py-3 text-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors rounded-lg'
-    : 'px-4 py-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group';
-
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -30,19 +26,34 @@ export default function Navigation({ isMobile = false, onNavigate }: NavigationP
     }
   };
 
+  if (isMobile) {
+    return (
+      <nav className="flex flex-col space-y-2">
+        {navItems.map((item) => (
+          <a
+            key={item.key}
+            href={item.href}
+            onClick={(e) => handleClick(e, item.href)}
+            className="glass-card block px-4 py-3 text-lg hover:shadow-glow-blue transition-all rounded-lg font-semibold"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+    );
+  }
+
   return (
-    <nav className={isMobile ? 'flex flex-col space-y-2' : 'flex items-center space-x-1'}>
+    <nav className="flex items-center space-x-1">
       {navItems.map((item) => (
         <a
           key={item.key}
           href={item.href}
           onClick={(e) => handleClick(e, item.href)}
-          className={baseClasses}
+          className="relative px-4 py-2 font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 group"
         >
           {item.label}
-          {!isMobile && (
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300"></span>
-          )}
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-primary group-hover:w-full transition-all duration-300"></span>
         </a>
       ))}
     </nav>

@@ -211,5 +211,12 @@ const Hero = () => {
     </section>
   );
 };
-
+<div className="glass-card p-8 animate-float">
+  <h1 className="gradient-text text-6xl font-black">
+    حمیدرضا دانش‌سرند
+  </h1>
+  <button className="btn-gradient mt-6">
+    دانلود رزومه
+  </button>
+</div>
 export default memo(Hero);
